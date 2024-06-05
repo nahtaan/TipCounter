@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1, user-scalable = yes">
+    <title>Tip Calculator</title>
+    <link href="output.css" rel="stylesheet">
+    <script src="script.js"></script>
+</head>
+<body class="text-white m-0 container-snap h-screen w-screen overflow-x-clip overflow-y-scroll bg-neutral-950">
+<div class="h-full flex flex-col gap-5 divide-y divide-slate-400 w-screen m-0 pt-5 text-xl">
+    <!--   Section for taking a list of employees to split the tips between     -->
+    <div>
+        <form class="flex flex-col place-items-center gap-5 text-center text-white">
+            <div class="flex sm:flex-row flex-col place-items-center gap-5 text-center text-white">
+                <div class="flex flex-col">
+                    <label for="employeeName">Name</label>
+                    <input id="employeeName" type="text" class="rounded text-black">
+                </div>
+                <div class="flex flex-col">
+                    <label for="employeeHours">Hours</label>
+                    <input id="employeeHours" type="text" inputmode="numeric" class="rounded text-black" oninput="handleNumOnly('employeeHours')">
+                </div>
+                <div class="flex flex-col">
+                    <label for="employeeMinutes">Minutes</label>
+                    <input id="employeeMinutes" type="text" inputmode="numeric" class="rounded text-black" oninput="handleNumOnly('employeeMinutes')">
+                </div>
+            </div>
+            <button type="button" onclick="addEmployeeClick()" id="enter" class="rounded-lg bg-slate-600 text-white hover:bg-slate-500 focus:outline-none focus:ring focus:ring-slate-350 active:bg-slate-500 pt-1 pb-1 px-3">Add Employee</button>
+        </form>
+    </div>
+    <!--   Section for showing the currently added employees -->
+    <div class="place-items-center flex flex-col">
+        <p class="place-self-center">Current Entries</p>
+        <div id="entriesList" class="flex flex-wrap place-items-center place-content-center gap-5">
+            <div class="flex flex-row  bg-neutral-700 rounded-xl divide-x-2 p-3 divide-neutral-400">
+                <div class="lg:pr-2 pl-2 lg:pl-0 flex lg:flex-col flex-row-reverse place-items-center">
+                    <p class="pl-2 pr-2 lg:pr-0 lg:pl-0">Nathan</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 24 24" class="fill-true-red lg:h-9 lg:w-7 lg:pt-2 lg:place-self-center h-7 w-7">
+                        <path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
+                    </svg>
+                </div>
+                <div class="flex lg:flex-col sm:flex-row gap-3 pl-2 pr-2 lg:pr-2">
+                    <p>6 Hours</p>
+                    <p>40 Minutes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--   Section for totalling up the tips per coin/cash     -->
+    <div>
+        <h3>Total Tips</h3>
+    </div>
+    <!--   Section for returning the optimal split to the user     -->
+    <div>
+        <h3>Output</h3>
+    </div>
+</div>
+</body>
+</html>
