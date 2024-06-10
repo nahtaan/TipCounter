@@ -594,6 +594,10 @@ video {
   margin: 0px;
 }
 
+.m-auto{
+  margin: auto;
+}
+
 .block{
   display: block;
 }
@@ -629,6 +633,15 @@ video {
 .min-w-min{
   min-width: -moz-min-content;
   min-width: min-content;
+}
+
+.min-w-fit{
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+
+.min-w-0{
+  min-width: 0px;
 }
 
 .max-w-full{
@@ -763,6 +776,11 @@ video {
 .px-3{
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+}
+
+.px-5{
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .pb-1{
