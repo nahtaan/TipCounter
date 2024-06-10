@@ -594,6 +594,10 @@ video {
   margin: 0px;
 }
 
+.block{
+  display: block;
+}
+
 .flex{
   display: flex;
 }
@@ -614,68 +618,25 @@ video {
   width: 1.75rem;
 }
 
-.w-screen{
-  width: 100vw;
-}
-
-.w-5\/6{
-  width: 83.333333%;
-}
-
 .w-full{
   width: 100%;
 }
 
-.w-0{
-  width: 0px;
+.w-screen{
+  width: 100vw;
 }
 
-.w-1\/6{
-  width: 16.666667%;
-}
-
-.w-2\/6{
-  width: 33.333333%;
-}
-
-.w-3\/6{
-  width: 50%;
-}
-
-.min-w-0{
-  min-width: 0px;
+.min-w-min{
+  min-width: -moz-min-content;
+  min-width: min-content;
 }
 
 .max-w-full{
   max-width: 100%;
 }
 
-.shrink{
-  flex-shrink: 1;
-}
-
-.grow-0{
-  flex-grow: 0;
-}
-
-.grow{
-  flex-grow: 1;
-}
-
-.basis-0{
-  flex-basis: 0px;
-}
-
-.basis-full{
-  flex-basis: 100%;
-}
-
 .flex-row{
   flex-direction: row;
-}
-
-.flex-row-reverse{
-  flex-direction: row-reverse;
 }
 
 .flex-col{
@@ -692,6 +653,14 @@ video {
 
 .place-items-center{
   place-items: center;
+}
+
+.items-center{
+  align-items: center;
+}
+
+.justify-center{
+  justify-content: center;
 }
 
 .gap-3{
@@ -724,28 +693,16 @@ video {
   border-color: rgb(148 163 184 / var(--tw-divide-opacity));
 }
 
-.place-self-start{
-  place-self: start;
-}
-
 .place-self-center{
   place-self: center;
 }
 
+.justify-self-center{
+  justify-self: center;
+}
+
 .overflow-hidden{
   overflow: hidden;
-}
-
-.overflow-clip{
-  overflow: clip;
-}
-
-.overflow-visible{
-  overflow: visible;
-}
-
-.overflow-scroll{
-  overflow: scroll;
 }
 
 .overflow-x-clip{
@@ -756,12 +713,6 @@ video {
   overflow-y: scroll;
 }
 
-.truncate{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .text-ellipsis{
   text-overflow: ellipsis;
 }
@@ -770,16 +721,8 @@ video {
   text-overflow: clip;
 }
 
-.text-wrap{
-  text-wrap: wrap;
-}
-
 .break-words{
   overflow-wrap: break-word;
-}
-
-.break-all{
-  word-break: break-all;
 }
 
 .rounded{
@@ -846,6 +789,10 @@ video {
   text-align: center;
 }
 
+.align-middle{
+  vertical-align: middle;
+}
+
 .text-xl{
   font-size: 1.25rem;
   line-height: 1.75rem;
@@ -907,16 +854,8 @@ body {
     width: 1.75rem;
   }
 
-  .lg\:flex-row{
-    flex-direction: row;
-  }
-
   .lg\:flex-col{
     flex-direction: column;
-  }
-
-  .lg\:place-self-center{
-    place-self: center;
   }
 
   .lg\:pl-0{
