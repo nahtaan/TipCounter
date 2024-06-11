@@ -42,7 +42,8 @@ module.exports = {
     'lg:flex-col',
     'sm:flex-row',
     'gap-3',
-    'lg:pr-2'
+    'lg:pr-2',
+    'cursor-pointer'
   ],
   plugins: [],
 }
