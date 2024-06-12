@@ -30,7 +30,10 @@ class EmployeeEntry {
         this.tipAmount = 0;
     }
     getHoursDecimal() {
-        return this.hours + (60 / this.minutes);
+        if(this.minutes > 0){
+            return this.hours + (60 / this.minutes);
+        }
+        return this.hours;
     }
 }
 
@@ -88,12 +91,14 @@ const addEmployeeClick = () => {
     employeeMap.set(nextId, new EmployeeEntry(nameEntry, Number(hoursEntry), Number(minutesEntry)));
     // increment the id
     nextId += 1;
+    calculateValues();
 }
 
 const removeEmployee = (id) =>  {
     const element = document.getElementById("employee-"+id);
     element.remove();
     employeeMap.delete(id);
+    calculateValues();
 }
 
 const resetValue = (id, def = "") => {
@@ -161,6 +166,7 @@ const addCurrency = (value) => {
             break;
         }
     }
+    calculateValues();
 }
 
 const subtractCurrency = (value) => {
@@ -223,6 +229,7 @@ const subtractCurrency = (value) => {
             break;
         }
     }
+    calculateValues();
 }
 
 const validateNumberInput = (id) => {
@@ -268,4 +275,119 @@ const fromHTML = (html, trim = true) => {
     // based on whether the input HTML had one or more roots.
     if (result.length === 1) return result[0];
     return result;
+}
+
+
+const calculateValues = () => {
+    // first, calculate the total of all the tips
+    var totalTips = 0;
+    for(let key of currencyMap.keys()){
+        totalTips += key * currencyMap.get(key);
+    }
+
+    // next, calculate the total of all the hours
+    var totalHours = 0;
+    for(let id of employeeMap.keys()){
+        totalHours += employeeMap.get(id).getHoursDecimal();
+    }
+
+    // calculate the tips earned per hour
+    const tipsPerHour = totalTips / totalHours;
+
+    // calculate the tips earned by each employee
+    const employeeResults = [];
+    for(let id of employeeMap.keys()){
+        const employee = employeeMap.get(id);
+        // const employeeTips = Math.floor(employee.getHoursDecimal() * tipsPerHour * 100);
+        // do not round until the very end
+        const employeeTips = employee.getHoursDecimal()  * tipsPerHour * 100;
+        employeeResults.push({
+            'name': employee.name,
+            'totalTips': employeeTips,
+            'remainder': employeeTips,
+            'tipsIndividual': {}
+        })
+    }
+
+    // create a copy of the currencyMap so that we don't mess up the input section
+    const currencyMapCopy = new Map(currencyMap);
+
+    // try to use up as many of the tips that we already have before looking at swapping tips
+    for(let result of employeeResults){
+        splitTips(result, currencyMapCopy);
+    }
+
+    // now that we have used as much of the cash that we already have
+    // we now need to calculate the minimum number of each currency per employee
+    let remainingTipsCount = new Map([
+        [50.00, 0],
+        [20.00, 0],
+        [10.00, 0],
+        [5.00, 0],
+        [2.00, 0],
+        [1.00, 0],
+        [0.50, 0],
+        [0.20, 0],
+        [0.10, 0],
+        [0.05, 0],
+        [0.02, 0],
+        [0.01, 0],
+    ]);
+    for(let result of employeeResults){
+        countRemainingTips(result, remainingTipsCount);
+    }
+
+    console.log(employeeResults);
+    console.log(currencyMapCopy);
+    console.log(remainingTipsCount);
+}
+
+const splitTips = (employee, currencyMap) => {
+    // convert the currencyMap to an array and make the values all whole numbers
+    let currency = Array.from(currencyMap.entries()).sort((a, b) => b[0] - a[0]);
+    for(let i = 0; i<currency.length; i++){
+        currency[i][0] *= 100;
+    }
+
+    let remainder = Number(employee['remainder']);
+    let individual = employee['tipsIndividual'];
+    for(let [value, quantity] of currency){
+        // iterate until the remainder is too small to fit this value or we have run out of this value
+        while(value <= remainder && quantity > 0){
+            remainder -= value;
+            quantity -= 1;
+            currencyMap.set(value/100, quantity);
+            if(!(value in individual)){
+                individual[value] = 1;
+            }else{
+                individual[value] += 1;
+            }
+        }
+    }
+    employee["tipsIndividual"] = individual;
+    employee["remainder"] = remainder;
+}
+
+const countRemainingTips = (employee, currencyMap) => {
+    // convert the currencyMap to an array and make the values all whole numbers
+    let currency = Array.from(currencyMap.entries()).sort((a, b) => b[0] - a[0]);
+    for(let i = 0; i<currency.length; i++){
+        currency[i][0] *= 100;
+    }
+
+    let remainder = employee['remainder'];
+    let individual = employee['tipsIndividual'];
+    for(let [value, quantity] of currency){
+        while(value <= remainder){
+            remainder -= value;
+            currencyMap.set(value/100, currencyMap.get(value/100) + 1);
+            if(!(value in individual)){
+                individual[value] = 1;
+            }else{
+                individual[value] += 1;
+            }
+        }
+    }
+    employee['tipsIndividual'] = individual;
+    employee['remainder'] = remainder;
 }
