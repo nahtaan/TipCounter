@@ -202,8 +202,53 @@
         </div> 
     </div>
     <!--   Section for returning the optimal split to the user     -->
-    <div class="flex flex-col place-items-center pt-5">
-        <p class="place-self-center font-bold text-2xl">Output</p>
+    <div class="flex flex-col place-items-center py-5">
+        <p class="place-self-center font-bold text-2xl mb-5">Output</p>
+        <!-- Section for displaying any coin swaps -->
+        <div class="flex flex-col place-items-center place-content-center py-5 rounded-xl w-full">
+            <p class="place-self-center font-bold text-xl pb-3">Cash Exchange</p>
+            <div class="flex flex-col place-items-center place-content-center gap-5">
+                <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap" id="old-cash-exchange">
+                </div>
+                <svg class="w-7 h-7 fill-white" height="200px" width="200px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g id="arrow_x5F_down"> <path d="M32,16.016l-5.672-5.664c0,0-3.18,3.18-6.312,6.312V0h-8.023v16.664l-6.32-6.32L0,16.016L16,32 L32,16.016z"></path> </g> </g> </g>
+                </svg>
+                <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap" id="new-cash-exchange">
+                </div>
+            </div>
+        </div>
+        <!-- Section for displaying the coins per person -->
+        <div class="flex flex-col place-self-center justify-items-center place-items-center pt-5">
+            <div class="flex flex-col place-items-center text-center justify-items-center bg-zinc-600 rounded-md p-5">
+                <p class="font-bold text-lg bg-white text-black border-zinc-700 border-[5px] rounded-lg mb-5 p-2">Nathan</p>
+                <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap">
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>1p</p>
+                        <p>x0</p>
+                    </div>
+
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>2p</p>
+                        <p>x0</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>5p</p>
+                        <p>x0</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>10p</p>
+                        <p>x0</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>20p</p>
+                        <p>x0</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>50p</p>
+                        <p>x0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

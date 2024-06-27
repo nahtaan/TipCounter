@@ -337,9 +337,41 @@ const calculateValues = () => {
         countRemainingTips(result, remainingTipsCount);
     }
 
-    console.log(employeeResults);
-    console.log(currencyMapCopy);
-    console.log(remainingTipsCount);
+    // console.log(employeeResults);
+    // console.log(currencyMapCopy);
+    // console.log(remainingTipsCount);
+
+    // remove any old entries
+    document.getElementById("old-cash-exchange").innerHTML = "";
+    // create the new entries for the old cash exchange
+    for(let entry of currencyMapCopy) {
+        if(entry[1] == 0) {
+            continue;
+        }
+        let returnEntry = fromHTML(`
+            <div class="bg-red-500 rounded-none border-red-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>${numberToCurrency(entry[0])}</p>
+                        <p>x${entry[1]}</p>
+                    </div>`)
+        document.getElementById("old-cash-exchange").appendChild(returnEntry);
+    }
+    // remove any old entries
+    document.getElementById("new-cash-exchange").innerHTML = "";
+    // create the new entries for the new cash exchange
+    for(let entry of remainingTipsCount) {
+        if(entry[1] == 0) {
+            continue;
+        }
+        let gainEntry = fromHTML(`
+            <div class="bg-green-500 rounded-none border-green-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>${numberToCurrency(entry[0])}</p>
+                        <p>x${entry[1]}</p>
+                    </div>`)
+        document.getElementById("new-cash-exchange").appendChild(gainEntry);
+    }
+
+    // remove any old entries
+    
 }
 
 const splitTips = (employee, currencyMap) => {
@@ -390,4 +422,22 @@ const countRemainingTips = (employee, currencyMap) => {
     }
     employee['tipsIndividual'] = individual;
     employee['remainder'] = remainder;
+}
+
+const numberToCurrency = (number) => {
+    switch (number) {
+        case 0.01: return "1p";
+        case 0.02: return "2p";
+        case 0.05: return "5p";
+        case 0.10: return "10p";
+        case 0.20: return "20p";
+        case 0.50: return "50p";
+        case 1.00: return "£1";
+        case 2.00: return "£2";
+        case 5.00: return "£5";
+        case 10.00: return "£10";
+        case 20.00: return "£20";
+        case 50.00: return "£50";
+        default: return "Invalid amount";
+    }
 }
