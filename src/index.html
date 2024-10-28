@@ -53,201 +53,171 @@
     <!--   Section for totalling up the tips per coin/cash     -->
     <div class="place-items-center flex flex-col gap-5 pt-5">
         <p class="place-self-center font-bold text-2xl">Tips</p>
-
-        <div class="flex flex-row select-none gap-5 flex-wrap place-content-center">
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(0.01)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+        <div class="flex flex-row select-none gap-3 flex-wrap place-content-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(0.01)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>1p</p>
                     <p id="entry-0.01">x0</p>
                 </div>
-                <div onclick="addCurrency(0.01)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(0.01)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(0.02)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(0.02)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>2p</p>
                     <p id="entry-0.02">x0</p>
                 </div>
-                <div onclick="addCurrency(0.02)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(0.02)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(0.05)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(0.05)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>5p</p>
                     <p id="entry-0.05">x0</p>
                 </div>
-                <div onclick="addCurrency(0.05)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(0.05)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(0.10)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(0.10)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>10p</p>
                     <p id="entry-0.10">x0</p>
                 </div>
-                <div onclick="addCurrency(0.10)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(0.10)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(0.20)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(0.20)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>20p</p>
                     <p id="entry-0.20">x0</p>
                 </div>
-                <div onclick="addCurrency(0.20)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(0.20)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(0.50)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(0.50)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>50p</p>
                     <p id="entry-0.50">x0</p>
                 </div>
-                <div onclick="addCurrency(0.50)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(0.50)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(1.00)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(1.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>£1</p>
                     <p id="entry-1.00">x0</p>
                 </div>
-                <div onclick="addCurrency(1.00)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(1.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(2.00)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(2.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>£2</p>
                     <p id="entry-2.00">x0</p>
                 </div>
-                <div onclick="addCurrency(2.00)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(2.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(5.00)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(5.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>£5</p>
                     <p id="entry-5.00">x0</p>
                 </div>
-                <div onclick="addCurrency(5.00)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(5.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(10.00)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(10.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>£10</p>
                     <p id="entry-10.00">x0</p>
                 </div>
-                <div onclick="addCurrency(10.00)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(10.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(20.00)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(20.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>£20</p>
                     <p id="entry-20.00">x0</p>
                 </div>
-                <div onclick="addCurrency(20.00)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(20.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-            <div class="flex flex-row gap-2">
-                <div onclick="subtractCurrency(50.00)" class="bg-red-500 rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+            <div class="flex flex-col-reverse gap-2 md:flex-row">
+                <div onclick="subtractCurrency(50.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>-1</p>
                 </div>
                 <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                     <p>£50</p>
                     <p id="entry-50.00">x0</p>
                 </div>
-                <div onclick="addCurrency(50.00)" class="bg-green-500 rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                <div onclick="addCurrency(50.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
                     <p>+1</p>
                 </div>
             </div>
-        </div> 
+        </div>
+        <p class="place-self-center font-bold text-xl" id="total-tips">Total: £0.00</p>
     </div>
     <!--   Section for returning the optimal split to the user     -->
     <div class="flex flex-col place-items-center py-5">
         <p class="place-self-center font-bold text-2xl mb-5">Output</p>
         <!-- Section for displaying any coin swaps -->
-        <div class="flex flex-col place-items-center place-content-center py-5 rounded-xl w-full">
+        <div class="flex flex-col place-items-center place-content-center py-5 rounded-xl w-full has-[#old-cash-exchange:empty]:hidden">
             <p class="place-self-center font-bold text-xl pb-3">Cash Exchange</p>
             <div class="flex flex-col place-items-center place-content-center gap-5">
-                <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap" id="old-cash-exchange">
-                </div>
-                <svg class="w-7 h-7 fill-white" height="200px" width="200px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g id="arrow_x5F_down"> <path d="M32,16.016l-5.672-5.664c0,0-3.18,3.18-6.312,6.312V0h-8.023v16.664l-6.32-6.32L0,16.016L16,32 L32,16.016z"></path> </g> </g> </g>
-                </svg>
-                <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap" id="new-cash-exchange">
+                <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap" id="old-cash-exchange"></div>
+                <div class="has-[#new-cash-exchange:empty]:hidden flex flex-col place-items-center justify-items-center gap-5">
+                    <svg class="w-7 h-7 fill-white" height="200px" width="200px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g id="arrow_x5F_down"> <path d="M32,16.016l-5.672-5.664c0,0-3.18,3.18-6.312,6.312V0h-8.023v16.664l-6.32-6.32L0,16.016L16,32 L32,16.016z"></path> </g> </g> </g>
+                    </svg>
+                    <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap" id="new-cash-exchange"></div>
                 </div>
             </div>
         </div>
         <!-- Section for displaying the coins per person -->
-        <div class="flex flex-col place-self-center justify-items-center place-items-center pt-5">
-            <div class="flex flex-col place-items-center text-center justify-items-center bg-zinc-600 rounded-md p-5">
-                <p class="font-bold text-lg bg-white text-black border-zinc-700 border-[5px] rounded-lg mb-5 p-2">Nathan</p>
-                <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap">
-                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                        <p>1p</p>
-                        <p>x0</p>
-                    </div>
-
-                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                        <p>2p</p>
-                        <p>x0</p>
-                    </div>
-                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                        <p>5p</p>
-                        <p>x0</p>
-                    </div>
-                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                        <p>10p</p>
-                        <p>x0</p>
-                    </div>
-                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                        <p>20p</p>
-                        <p>x0</p>
-                    </div>
-                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                        <p>50p</p>
-                        <p>x0</p>
-                    </div>
-                </div>
-            </div>
+        <div class="flex flex-row place-self-center justify-items-center place-items-center pt-5 gap-5 flex-wrap items-center justify-center" id="employee-reslults">
         </div>
     </div>
 </div>

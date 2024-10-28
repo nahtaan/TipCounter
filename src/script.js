@@ -284,6 +284,9 @@ const calculateValues = () => {
     for(let key of currencyMap.keys()){
         totalTips += key * currencyMap.get(key);
     }
+    
+    // update the total tips element
+    document.getElementById("total-tips").innerText = `Total: £${totalTips.toFixed(2)}`;
 
     // next, calculate the total of all the hours
     var totalHours = 0;
@@ -370,8 +373,38 @@ const calculateValues = () => {
         document.getElementById("new-cash-exchange").appendChild(gainEntry);
     }
 
-    // remove any old entries
-    
+    // remove any old entries of employees
+    document.getElementById("employee-reslults").innerHTML = "";
+    // create the new entries for the employee results
+    for(let employee of employeeResults) {
+        console.log(employee);
+        let container = fromHTML(`<div class="flex flex-col place-self-center justify-items-center place-items-center p-5 divide-y-2 bg-neutral-700 rounded-xl divide-neutral-400">
+                <div class="flex flex-row pb-5 w-full gap-3 place-content-center">
+                    <div class="flex flex-col align-middle place-content-center justify-items-center justify-center">
+                        <input type="checkbox" class="w-7 h-7 accent-green-500">
+                    </div>
+                    <div class="flex flex-col">
+                        <p class="font-bold text-lg text-center">${employee.name}</p>
+                        <p class="font-bold text-lg text-center">Total: £${(employee.totalTips / 100).toFixed(2)}</p>
+                    </div>
+                </div>
+            </div>
+        `)
+        let coinValues = fromHTML(`<div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap pt-5 w-full"></div>`)
+        for(const [increment, frequency] of Object.entries(employee.tipsIndividual)) {
+            const realIncrement = increment / 100;
+            coinValues.appendChild(
+                fromHTML(`
+                    <div class="bg-teal-500 rounded-none border-teal-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>${numberToCurrency(realIncrement)}</p>
+                        <p>x${frequency}</p>
+                    </div>
+                `)
+            )
+        }
+        container.appendChild(coinValues);
+        document.getElementById("employee-reslults").appendChild(container);
+    }
 }
 
 const splitTips = (employee, currencyMap) => {
