@@ -1,5 +1,5 @@
-const employeeMap = new Map();
-const currencyMap = new Map([
+let employeeMap = new Map();
+let currencyMap = new Map([
     [0.01, 0],
     [0.02, 0],
     [0.05, 0],
@@ -23,19 +23,119 @@ class EmployeeEntry {
      * @param {Number} hours 
      * @param {Number} minutes 
      */
-    constructor(name, hours, minutes){
+    constructor(name, hours, minutes, tipAmount = 0){
         this.name = name;
         this.hours = hours;
         this.minutes = minutes;
-        this.tipAmount = 0;
+        this.tipAmount = tipAmount;
     }
     getHoursDecimal() {
         if(this.minutes > 0){
-            return this.hours + (60 / this.minutes);
+            return this.hours + (this.minutes / 60);
         }
         return this.hours;
     }
 }
+
+const handleSave = () => {
+    // save all employees
+    let employeeSave = {};
+    for(let id of employeeMap.keys()) {
+        employeeSave[id] = JSON.stringify(employeeMap.get(id));
+    }
+    localStorage.setItem('employees', JSON.stringify(employeeSave));
+
+    // save money
+    let moneySave = {};
+    for(let id of currencyMap.keys()) {
+        moneySave[id] = currencyMap.get(id);
+    }
+    localStorage.setItem('money', JSON.stringify(moneySave));
+}
+
+const handleLoad = () => {
+    // check if there is a previous save available
+    if(localStorage.getItem('employees') === null) {
+        return;
+    }
+    if(localStorage.getItem('money') === null) {
+        return;
+    }
+
+    // load all employees
+    let employeeSave = JSON.parse(localStorage.getItem('employees'));
+    for(const [id, employeeStr] of Object.entries(employeeSave)) {
+        const employee = JSON.parse(employeeStr);
+        const obj = new EmployeeEntry(employee['name'], employee['hours'], employee['minutes'], employee['tipAmount']);
+        employeeMap.set(Number(id), obj);
+        addEmployeeVisually(employee['name'], employee['hours'], employee['minutes'], Number(id));
+        if(nextId <= Number(id)) {
+            nextId = Number(id) + 1;
+        }
+    }
+
+    // load all money
+    let moneySave = JSON.parse(localStorage.getItem('money'));
+    for(const [value, amount] of Object.entries(moneySave)) {
+        currencyMap.set(Number(value), amount);
+
+        // update visual number
+        switch (Number(value)) {
+            case 0.01: {
+                document.getElementById("entry-0.01").innerText = `x${amount}`;
+                break;
+            }
+            case 0.02: {
+                document.getElementById("entry-0.02").innerText = `x${amount}`;
+                break;
+            }
+            case 0.05: {
+                document.getElementById("entry-0.05").innerText = `x${amount}`;
+                break;
+            }
+            case 0.10: {
+                document.getElementById("entry-0.10").innerText = `x${amount}`;
+                break;
+            }
+            case 0.20: {
+                document.getElementById("entry-0.20").innerText = `x${amount}`;
+                break;
+            }
+            case 0.50: {
+                document.getElementById("entry-0.50").innerText = `x${amount}`;
+                break;
+            }
+            case 1.00: {
+                document.getElementById("entry-1.00").innerText = `x${amount}`;
+                break;
+            }
+            case 2.00: {
+                document.getElementById("entry-2.00").innerText = `x${amount}`;
+                break;
+            }
+            case 5.00: {
+                document.getElementById("entry-5.00").innerText = `x${amount}`;
+                break;
+            }
+            case 10.00: {
+                document.getElementById("entry-10.00").innerText = `x${amount}`;
+                break;
+            }
+            case 20.00: {
+                document.getElementById("entry-20.00").innerText = `x${amount}`;
+                break;
+            }
+            case 50.00: {
+                document.getElementById("entry-50.00").innerText = `x${amount}`;
+                break;
+            }
+        }
+    }
+    // re-calculate the values
+    calculateValues();
+}
+
+
 
 const addEmployeeClick = () => {
     const nameEntry = document.getElementById("employeeName").value;
@@ -52,6 +152,21 @@ const addEmployeeClick = () => {
         return;
     }
 
+    // early return if the minutes and hours are both 0
+    if(hoursEntry === '0' && minutesEntry === '0') {
+        return;
+    }
+
+    addEmployeeVisually(nameEntry, hoursEntry, minutesEntry, nextId);
+
+    // add the new entry to the employee map
+    employeeMap.set(nextId, new EmployeeEntry(nameEntry, Number(hoursEntry), Number(minutesEntry)));
+    // increment the id
+    nextId += 1;
+    calculateValues();
+}
+
+const addEmployeeVisually = (nameEntry, hoursEntry, minutesEntry, id) => {
     var hoursFormat = "";
     var minutesFormat = "";
 
@@ -68,8 +183,8 @@ const addEmployeeClick = () => {
         return;
     }
     const newItem = fromHTML(`
-    <div id="employee-${nextId}" class="flex flex-row place-content-center bg-neutral-700 rounded-xl divide-x-2 p-3 divide-neutral-400 max-w-full min-w-0">
-    <div class="flex justify-center items-center align-middle cursor-pointer" onclick="removeEmployee(${nextId})">
+    <div id="employee-${id}" class="flex flex-row place-content-center bg-neutral-700 rounded-xl divide-x-2 p-3 divide-neutral-400 max-w-full min-w-0">
+    <div class="flex justify-center items-center align-middle cursor-pointer" onclick="removeEmployee(${id})">
         <svg class="fill-true-red h-7 w-7 justify-self-center place-self-center" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 24 24">
             <path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
         </svg>
@@ -86,12 +201,6 @@ const addEmployeeClick = () => {
     
     // append the overall container to the entrylist container
     document.getElementById("entriesList").appendChild(newItem);
-
-    // add the new entry to the employee map
-    employeeMap.set(nextId, new EmployeeEntry(nameEntry, Number(hoursEntry), Number(minutesEntry)));
-    // increment the id
-    nextId += 1;
-    calculateValues();
 }
 
 const removeEmployee = (id) =>  {
@@ -279,6 +388,9 @@ const fromHTML = (html, trim = true) => {
 
 
 const calculateValues = () => {
+    // save values incase a reload occurs
+    handleSave();
+
     // first, calculate the total of all the tips
     var totalTips = 0;
     for(let key of currencyMap.keys()){
@@ -340,10 +452,6 @@ const calculateValues = () => {
         countRemainingTips(result, remainingTipsCount);
     }
 
-    // console.log(employeeResults);
-    // console.log(currencyMapCopy);
-    // console.log(remainingTipsCount);
-
     // remove any old entries
     document.getElementById("old-cash-exchange").innerHTML = "";
     // create the new entries for the old cash exchange
@@ -377,7 +485,7 @@ const calculateValues = () => {
     document.getElementById("employee-reslults").innerHTML = "";
     // create the new entries for the employee results
     for(let employee of employeeResults) {
-        console.log(employee);
+        // console.log(employee);
         let container = fromHTML(`<div class="flex flex-col place-self-center justify-items-center place-items-center p-5 divide-y-2 bg-neutral-700 rounded-xl divide-neutral-400">
                 <div class="flex flex-row pb-5 w-full gap-3 place-content-center">
                     <div class="flex flex-col align-middle place-content-center justify-items-center justify-center">
