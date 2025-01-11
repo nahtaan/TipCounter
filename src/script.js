@@ -215,6 +215,43 @@ const resetValue = (id, def = "") => {
     element.value = def;
 }
 
+const resetTips = () => {
+    currencyMap = new Map([
+        [0.01, 0],
+        [0.02, 0],
+        [0.05, 0],
+        [0.10, 0],
+        [0.20, 0],
+        [0.50, 0],
+        [1.00, 0],
+        [2.00, 0],
+        [5.00, 0],
+        [10.00, 0],
+        [20.00, 0],
+        [50.00, 0]
+    ]);
+
+    document.getElementById("entry-0.01").innerText = 'x0';
+    document.getElementById("entry-0.02").innerText = 'x0';
+    document.getElementById("entry-0.05").innerText = 'x0';
+    document.getElementById("entry-0.10").innerText = 'x0';
+    document.getElementById("entry-0.20").innerText = 'x0';
+    document.getElementById("entry-0.50").innerText = 'x0';
+    document.getElementById("entry-1.00").innerText = 'x0';
+    document.getElementById("entry-2.00").innerText = 'x0';
+    document.getElementById("entry-5.00").innerText = 'x0';
+    document.getElementById("entry-10.00").innerText = 'x0';
+    document.getElementById("entry-20.00").innerText = 'x0';
+    document.getElementById("entry-50.00").innerText = 'x0';
+    calculateValues();
+}
+
+const resetEmployees = () => {
+    employeeMap = new Map();
+    document.getElementById('entriesList').innerHTML = "";
+    calculateValues();
+}
+
 const addCurrency = (value) => {
     if(!currencyMap.has(value)){
         return;
