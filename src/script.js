@@ -445,7 +445,8 @@ const calculateValues = () => {
 
     // calculate the tips earned per hour
     const tipsPerHour = totalTips / totalHours;
-
+    document.getElementById("perhour").innerText = `£${tipsPerHour.toFixed(2)}`;
+    
     // calculate the tips earned by each employee
     const employeeResults = [];
     for(let id of employeeMap.keys()){
