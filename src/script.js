@@ -29,11 +29,8 @@ class EmployeeEntry {
         this.minutes = minutes;
         this.tipAmount = tipAmount;
     }
-    getHoursDecimal() {
-        if(this.minutes > 0){
-            return this.hours + (this.minutes / 60);
-        }
-        return this.hours;
+    getMinutesDecimal() {
+        return (this.hours * 60) + this.minutes;
     }
 }
 
@@ -425,7 +422,7 @@ const fromHTML = (html, trim = true) => {
 
 
 const calculateValues = () => {
-    // save values incase a reload occurs
+    // save values in case a reload occurs
     handleSave();
 
     // first, calculate the total of all the tips
@@ -437,23 +434,22 @@ const calculateValues = () => {
     // update the total tips element
     document.getElementById("total-tips").innerText = `Total: £${totalTips.toFixed(2)}`;
 
-    // next, calculate the total of all the hours
-    var totalHours = 0;
+    // next, calculate the total of all the minutes
+    var totalMinutes = 0;
     for(let id of employeeMap.keys()){
-        totalHours += employeeMap.get(id).getHoursDecimal();
+        totalMinutes += employeeMap.get(id).getMinutesDecimal();
     }
 
     // calculate the tips earned per hour
-    const tipsPerHour = totalTips / totalHours;
-    document.getElementById("perhour").innerText = `£${tipsPerHour.toFixed(2)}/hr`;
+    const tipsPerMinute = totalTips / totalMinutes;
+    document.getElementById("perhour").innerText = `£${(tipsPerMinute * 60).toFixed(2)}/hr`;
     
     // calculate the tips earned by each employee
     const employeeResults = [];
     for(let id of employeeMap.keys()){
         const employee = employeeMap.get(id);
-        // const employeeTips = Math.floor(employee.getHoursDecimal() * tipsPerHour * 100);
         // do not round until the very end
-        const employeeTips = employee.getHoursDecimal()  * tipsPerHour * 100;
+        const employeeTips = employee.getMinutesDecimal()  * tipsPerMinute * 100; // use pence for accuracy
         employeeResults.push({
             'name': employee.name,
             'totalTips': employeeTips,
@@ -461,18 +457,18 @@ const calculateValues = () => {
             'tipsIndividual': {}
         })
     }
+    console.log(employeeResults);
 
     // create a copy of the currencyMap so that we don't mess up the input section
     const currencyMapCopy = new Map(currencyMap);
 
     // try to use up as many of the tips that we already have before looking at swapping tips
-    for(let result of employeeResults){
-        splitTips(result, currencyMapCopy);
-    }
+    // for(let result of employeeResults){
+    //     splitTips(result, currencyMapCopy);
+    // }
 
-    // now that we have used as much of the cash that we already have
-    // we now need to calculate the minimum number of each currency per employee
-    let remainingTipsCount = new Map([
+    // find the tips required by each employee
+    const requiredTips = new Map([
         [50.00, 0],
         [20.00, 0],
         [10.00, 0],
@@ -487,40 +483,55 @@ const calculateValues = () => {
         [0.01, 0],
     ]);
     for(let result of employeeResults){
-        countRemainingTips(result, remainingTipsCount);
+        findRequiredTips(result, requiredTips)
     }
+
+    // find the difference between what we have and what we need
+    let difference = new Map([
+        [50.00, 0],
+        [20.00, 0],
+        [10.00, 0],
+        [5.00, 0],
+        [2.00, 0],
+        [1.00, 0],
+        [0.50, 0],
+        [0.20, 0],
+        [0.10, 0],
+        [0.05, 0],
+        [0.02, 0],
+        [0.01, 0],
+    ]);
+    for(let [value, quantity] of currencyMapCopy) {
+        // difference[value] = quantity - requiredTips[value];
+        difference.set(value, quantity - requiredTips.get(value));
+    }
+    console.log(difference);
 
     // remove any old entries
     document.getElementById("old-cash-exchange").innerHTML = "";
-    // create the new entries for the old cash exchange
-    for(let entry of currencyMapCopy) {
-        if(entry[1] == 0) {
-            continue;
-        }
-        let returnEntry = fromHTML(`
-            <div class="bg-red-500 rounded-none border-red-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                        <p>${numberToCurrency(entry[0])}</p>
-                        <p>x${entry[1]}</p>
-                    </div>`)
-        document.getElementById("old-cash-exchange").appendChild(returnEntry);
-    }
-    // remove any old entries
     document.getElementById("new-cash-exchange").innerHTML = "";
-    // create the new entries for the new cash exchange
-    for(let entry of remainingTipsCount) {
-        if(entry[1] == 0) {
-            continue;
-        }
-        let gainEntry = fromHTML(`
+
+    // create the new entries for the old cash exchange
+    for(let [value, quantity] of difference) {
+        // this is cash we need to gain
+        if (quantity > 0) {
+            document.getElementById("old-cash-exchange").appendChild(fromHTML(`
             <div class="bg-green-500 rounded-none border-green-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                        <p>${numberToCurrency(entry[0])}</p>
-                        <p>x${entry[1]}</p>
-                    </div>`)
-        document.getElementById("new-cash-exchange").appendChild(gainEntry);
+                        <p>${numberToCurrency(value)}</p>
+                        <p>x${quantity}</p>
+                    </div>`));
+        // this is cash we need to give back
+        }else if (quantity < 0) {
+            document.getElementById("new-cash-exchange").appendChild(fromHTML(`
+            <div class="bg-red-500 rounded-none border-red-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>${numberToCurrency(value)}</p>
+                        <p>x${Math.abs(quantity)}</p>
+                    </div>`));
+        }
     }
 
     // remove any old entries of employees
-    document.getElementById("employee-reslults").innerHTML = "";
+    document.getElementById("employee-results").innerHTML = "";
     // create the new entries for the employee results
     for(let employee of employeeResults) {
         // console.log(employee);
@@ -549,57 +560,28 @@ const calculateValues = () => {
             )
         }
         container.appendChild(coinValues);
-        document.getElementById("employee-reslults").appendChild(container);
+        document.getElementById("employee-results").appendChild(container);
     }
 }
 
-const splitTips = (employee, currencyMap) => {
-    // convert the currencyMap to an array and make the values all whole numbers
+const findRequiredTips = (employee, requiredTips) => {
     let currency = Array.from(currencyMap.entries()).sort((a, b) => b[0] - a[0]);
-    for(let i = 0; i<currency.length; i++){
-        currency[i][0] *= 100;
-    }
-
     let remainder = Number(employee['remainder']);
     let individual = employee['tipsIndividual'];
-    for(let [value, quantity] of currency){
-        // iterate until the remainder is too small to fit this value or we have run out of this value
-        while(value <= remainder && quantity > 0){
-            remainder -= value;
-            quantity -= 1;
-            currencyMap.set(value/100, quantity);
-            if(!(value in individual)){
-                individual[value] = 1;
-            }else{
-                individual[value] += 1;
+
+    for(let [value, _] of currency) {
+        let pence = value * 100;
+        while(pence <= remainder) {
+            remainder = remainder - pence;
+
+            if(individual.hasOwnProperty(pence)) {
+                individual[pence] = individual[pence] + 1;
+            }else {
+                individual[pence] = 1;
             }
+            requiredTips.set(value, requiredTips.get(value) + 1);
         }
     }
-    employee["tipsIndividual"] = individual;
-    employee["remainder"] = remainder;
-}
-
-const countRemainingTips = (employee, currencyMap) => {
-    // convert the currencyMap to an array and make the values all whole numbers
-    let currency = Array.from(currencyMap.entries()).sort((a, b) => b[0] - a[0]);
-    for(let i = 0; i<currency.length; i++){
-        currency[i][0] *= 100;
-    }
-
-    let remainder = employee['remainder'];
-    let individual = employee['tipsIndividual'];
-    for(let [value, quantity] of currency){
-        while(value <= remainder){
-            remainder -= value;
-            currencyMap.set(value/100, currencyMap.get(value/100) + 1);
-            if(!(value in individual)){
-                individual[value] = 1;
-            }else{
-                individual[value] += 1;
-            }
-        }
-    }
-    employee['tipsIndividual'] = individual;
     employee['remainder'] = remainder;
 }
 
