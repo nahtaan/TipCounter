@@ -13,15 +13,30 @@ let currencyMap = new Map([
     [20.00, 0],
     [50.00, 0]
 ]);
+let enabledCurrencies = {
+    "0.01": true,
+    "0.02": true,
+    "0.05": true,
+    "0.10": true,
+    "0.20": true,
+    "0.50": true,
+    "1.00": true,
+    "2.00": true,
+    "5.00": true,
+    "10.00": true,
+    "20.00": true,
+    "50.00": true
+};
 
 let nextId = 0;
 
 class EmployeeEntry {
     /**
-     * 
-     * @param {String} name 
-     * @param {Number} hours 
-     * @param {Number} minutes 
+     *
+     * @param {String} name
+     * @param {Number} hours
+     * @param {Number} minutes
+     * @param tipAmount
      */
     constructor(name, hours, minutes, tipAmount = 0){
         this.name = name;
@@ -32,6 +47,23 @@ class EmployeeEntry {
     getMinutesDecimal() {
         return (this.hours * 60) + this.minutes;
     }
+}
+
+const handleToggleSettings = () => {
+    document.getElementById("settings-content").classList.toggle("-translate-x-full");
+}
+
+const handleToggleCurrency = (enabled, currency) => {
+    enabledCurrencies[currency] = enabled;
+
+    let element = document.getElementById("input-" + currency);
+    if(enabled) {
+        element.classList.remove("hidden");
+    }else {
+        element.classList.add("hidden");
+    }
+
+    handleSave();
 }
 
 const handleSave = () => {
@@ -48,6 +80,9 @@ const handleSave = () => {
         moneySave[id] = currencyMap.get(id);
     }
     localStorage.setItem('money', JSON.stringify(moneySave));
+
+    // save enabled currencies
+    localStorage.setItem('enabledCurrencies', JSON.stringify(enabledCurrencies))
 }
 
 const handleLoad = () => {
@@ -56,6 +91,9 @@ const handleLoad = () => {
         return;
     }
     if(localStorage.getItem('money') === null) {
+        return;
+    }
+    if(localStorage.getItem('enabledCurrencies') === null) {
         return;
     }
 
@@ -128,6 +166,20 @@ const handleLoad = () => {
             }
         }
     }
+
+    // load enabled currencies
+    enabledCurrencies = JSON.parse(localStorage.getItem('enabledCurrencies'));
+    for(const [currency, enabled] of Object.entries(enabledCurrencies)) {
+        let element = document.getElementById("currency-switch-" + currency)
+        element.selected = enabled;
+        element = document.getElementById("input-" + currency);
+        if(!enabled) {
+            element.classList.add("hidden");
+        }
+
+    }
+
+
     // re-calculate the values
     calculateValues();
 }
@@ -164,8 +216,8 @@ const addEmployeeClick = () => {
 }
 
 const addEmployeeVisually = (nameEntry, hoursEntry, minutesEntry, id) => {
-    var hoursFormat = "";
-    var minutesFormat = "";
+    let hoursFormat = "";
+    let minutesFormat = "";
 
     // create the hours p tag if the hours > 0
     if(Number(hoursEntry) > 0){
@@ -400,9 +452,9 @@ const validateNumberInput = (id) => {
 }
 
 /**
- * @param {String} HTML representing a single element.
- * @param {Boolean} flag representing whether or not to trim input whitespace, defaults to true.
  * @return {Element | HTMLCollection | null}
+ * @param html
+ * @param trim
  */
 const fromHTML = (html, trim = true) => {
     // Process the HTML string.
@@ -426,16 +478,18 @@ const calculateValues = () => {
     handleSave();
 
     // first, calculate the total of all the tips
-    var totalTips = 0;
+    let totalTips = 0;
     for(let key of currencyMap.keys()){
-        totalTips += key * currencyMap.get(key);
+        if(enabledCurrencies[key.toFixed(2)]) {
+            totalTips += key * currencyMap.get(key);
+        }
     }
     
     // update the total tips element
     document.getElementById("total-tips").innerText = `Total: £${totalTips.toFixed(2)}`;
 
     // next, calculate the total of all the minutes
-    var totalMinutes = 0;
+    let totalMinutes = 0;
     for(let id of employeeMap.keys()){
         totalMinutes += employeeMap.get(id).getMinutesDecimal();
     }
@@ -457,15 +511,9 @@ const calculateValues = () => {
             'tipsIndividual': {}
         })
     }
-    console.log(employeeResults);
 
     // create a copy of the currencyMap so that we don't mess up the input section
     const currencyMapCopy = new Map(currencyMap);
-
-    // try to use up as many of the tips that we already have before looking at swapping tips
-    // for(let result of employeeResults){
-    //     splitTips(result, currencyMapCopy);
-    // }
 
     // find the tips required by each employee
     const requiredTips = new Map([
@@ -502,10 +550,11 @@ const calculateValues = () => {
         [0.01, 0],
     ]);
     for(let [value, quantity] of currencyMapCopy) {
-        // difference[value] = quantity - requiredTips[value];
+        if(!enabledCurrencies[value.toFixed(2)]) {
+            continue;
+        }
         difference.set(value, quantity - requiredTips.get(value));
     }
-    console.log(difference);
 
     // remove any old entries
     document.getElementById("old-cash-exchange").innerHTML = "";
@@ -534,7 +583,7 @@ const calculateValues = () => {
     document.getElementById("employee-results").innerHTML = "";
     // create the new entries for the employee results
     for(let employee of employeeResults) {
-        // console.log(employee);
+
         let container = fromHTML(`<div class="flex flex-col place-self-center justify-items-center place-items-center p-5 divide-y-2 bg-neutral-700 rounded-xl divide-neutral-400">
                 <div class="flex flex-row pb-5 w-full gap-3 place-content-center">
                     <div class="flex flex-col align-middle place-content-center justify-items-center justify-center">
@@ -570,6 +619,9 @@ const findRequiredTips = (employee, requiredTips) => {
     let individual = employee['tipsIndividual'];
 
     for(let [value, _] of currency) {
+        if(!enabledCurrencies[value.toFixed(2)]) {
+            continue;
+        }
         let pence = value * 100;
         while(pence <= remainder) {
             remainder = remainder - pence;
@@ -583,6 +635,7 @@ const findRequiredTips = (employee, requiredTips) => {
         }
     }
     employee['remainder'] = remainder;
+    employee['totalTips'] = employee['totalTips'] - remainder;
 }
 
 const numberToCurrency = (number) => {

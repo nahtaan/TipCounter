@@ -5,226 +5,313 @@
     <meta name = "viewport" content = "width = device-width, initial-scale = 1, user-scalable = yes">
     <title>Tip Calculator</title>
     <link href="output.css" rel="stylesheet">
+    <script type="importmap">
+        {
+          "imports": {
+            "@material/web/": "https://esm.run/@material/web/"
+          }
+        }
+    </script>
+    <script type="module">
+        import '@material/web/switch/switch.js';
+        import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
     <script src="script.js"></script>
 </head>
-<body class="text-white m-0 container-snap h-screen w-screen overflow-x-clip overflow-y-scroll bg-neutral-950" onload="handleLoad()">
-<div class="h-full flex flex-col gap-5 divide-y divide-slate-400 w-screen m-0 p-5 text-xl">
-    <!--   Section for taking a list of employees to split the tips between     -->
-    <div>
-        <form class="flex flex-col place-items-center gap-5 text-center text-white">
-            <div class="flex md:flex-row flex-col place-items-center gap-5 text-center text-white">
-                <div class="flex flex-col">
-                    <div class="flex flex-row place-items-center place-content-center">
-                        <label class="ml-3" for="employeeName">Name</label>
-                        <svg onclick="resetValue('employeeName')" class="w-5 h-5 ml-3" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"  />
-                        </svg>
-                    </div>
-                    <input id="employeeName" type="text" class="rounded text-black" maxlength="24">
-                </div>
-                <div class="flex flex-col">
-                    <div class="flex flex-row place-items-center place-content-center">
-                        <label class="ml-3" for="employeeHours">Hours</label>
-                        <svg onclick="resetValue('employeeHours', '0')" class="w-5 h-5 ml-3" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"  />
-                        </svg>
-                    </div>
-                    <input id="employeeHours" value="0" type="text" inputmode="numeric" class="rounded text-black" oninput="validateNumberInput('employeeHours')">
-                </div>
-                <div class="flex flex-col">
-                    <div class="flex flex-row place-items-center place-content-center">
-                        <label class="ml-3" for="employeeMinutes">Minutes</label>
-                        <svg onclick="resetValue('employeeMinutes', '0')" class="w-5 h-5 ml-3" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"  />
-                        </svg>
-                    </div>
-                    <input id="employeeMinutes" value="0" type="text" inputmode="numeric" class="rounded text-black" oninput="validateNumberInput('employeeMinutes')">
-                </div>
-            </div>
-            <button type="button" onclick="addEmployeeClick()" id="enter" class="rounded-lg bg-slate-600 text-white hover:bg-slate-500 focus:outline-none focus:ring focus:ring-slate-350 active:bg-slate-500 pt-1 pb-1 px-3">Add Employee</button>
-        </form>
-    </div>
-    <!--   Section for showing the currently added employees -->
-    <div class="place-items-center flex flex-col pt-5">
-        <p class="place-self-center font-bold text-2xl mb-5">Employees</p>
-        <svg onclick="resetEmployees()" class="w-5 h-5" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"  />
-        </svg>
-        <div id="entriesList" class="flex flex-wrap flex-col place-items-center place-content-center gap-5 w-full overflow-x-clip mt-5">
+<body class="text-white m-0 container-snap h-max w-screen overflow-x-clip  bg-neutral-950" onload="handleLoad()">
+<div class="flex h-full w-screen">
+    <button class="absolute w-max h-max bg-neutral-700 rounded-xl mt-1 ml-1" onclick="handleToggleSettings()">
+        <img src="settings.svg" alt="Settings icon." height="50" width="50" draggable="false">
+    </button>
+    <div class="fixed top-0 z-10 h-screen -translate-x-full transition-all bg-neutral-800 flex flex-col px-3 gap-3" id="settings-content">
+        <h1 class="font-bold text-2xl flex align-middle place-content-center place-items-center gap-5">
+            Toggle Currencies
+            <button class="relative flex place-content-end content-center p-2 h-min w-fit place-self-end" onclick="handleToggleSettings()">
+                <img src="x.svg" alt="Close settings icon." height="40" width="40" draggable="false">
+            </button>
+        </h1>
+        <div class="h-0.5 w-full px-1 bg-neutral-700"></div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">1p</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-0.01" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '0.01')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">2p</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-0.02" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '0.02')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">5p</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-0.05" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '0.05')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">10p</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-0.10" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '0.10')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">20p</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-0.20" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '0.20')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">50p</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-0.50" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '0.50')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">£1</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-1.00" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '1.00')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">£2</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-2.00" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '2.00')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">£5</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-5.00" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '5.00')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">£10</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-10.00" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '10.00')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">£20</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-20.00" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '20.00')"></md-switch>
+        </div>
+        <div class="flex flex-row gap-3 w-full h-min place-content-between">
+            <label class="place-self-start">£50</label>
+            <div class="h-0.5 w-3/4 justify-self-center place-self-center dashed-line"></div>
+            <md-switch id="currency-switch-50.00" class="place-self-end" selected onclick="handleToggleCurrency(!this.selected, '50.00')"></md-switch>
         </div>
     </div>
-    <!--   Section for totalling up the tips per coin/cash     -->
-    <div class="place-items-center flex flex-col gap-5 pt-5">
-        <p class="place-self-center font-bold text-2xl">Tips</p>
-        <svg onclick="resetTips()" class="w-5 h-5" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"  />
-        </svg>
-        <div class="flex flex-row select-none gap-3 flex-wrap place-content-center">
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(0.01)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
+    <div class="h-full flex flex-col gap-5 divide-y divide-slate-400 w-screen m-0 p-5 text-xl -inset-x-0">
+        <!--   Section for taking a list of employees to split the tips between     -->
+        <div>
+            <form class="flex flex-col place-items-center gap-5 text-center text-white">
+                <div class="flex md:flex-row flex-col place-items-center gap-5 text-center text-white">
+                    <div class="flex flex-col">
+                        <div class="flex flex-row place-items-center place-content-center">
+                            <label class="ml-3" for="employeeName">Name</label>
+                            <svg onclick="resetValue('employeeName')" class="w-5 h-5 ml-3" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024">
+                                <path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"  />
+                            </svg>
+                        </div>
+                        <input id="employeeName" type="text" class="rounded text-black" maxlength="24">
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex flex-row place-items-center place-content-center">
+                            <label class="ml-3" for="employeeHours">Hours</label>
+                            <svg onclick="resetValue('employeeHours', '0')" class="w-5 h-5 ml-3" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" >
+                                <path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"  />
+                            </svg>
+                        </div>
+                        <input id="employeeHours" value="0" type="text" inputmode="numeric" class="rounded text-black" oninput="validateNumberInput('employeeHours')">
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex flex-row place-items-center place-content-center">
+                            <label class="ml-3" for="employeeMinutes">Minutes</label>
+                            <svg onclick="resetValue('employeeMinutes', '0')" class="w-5 h-5 ml-3" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024">
+                                <path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"  />
+                            </svg>
+                        </div>
+                        <input id="employeeMinutes" value="0" type="text" inputmode="numeric" class="rounded text-black" oninput="validateNumberInput('employeeMinutes')">
+                    </div>
                 </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>1p</p>
-                    <p id="entry-0.01">x0</p>
-                </div>
-                <div onclick="addCurrency(0.01)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(0.02)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>2p</p>
-                    <p id="entry-0.02">x0</p>
-                </div>
-                <div onclick="addCurrency(0.02)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(0.05)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>5p</p>
-                    <p id="entry-0.05">x0</p>
-                </div>
-                <div onclick="addCurrency(0.05)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(0.10)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>10p</p>
-                    <p id="entry-0.10">x0</p>
-                </div>
-                <div onclick="addCurrency(0.10)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(0.20)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>20p</p>
-                    <p id="entry-0.20">x0</p>
-                </div>
-                <div onclick="addCurrency(0.20)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(0.50)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>50p</p>
-                    <p id="entry-0.50">x0</p>
-                </div>
-                <div onclick="addCurrency(0.50)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(1.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>£1</p>
-                    <p id="entry-1.00">x0</p>
-                </div>
-                <div onclick="addCurrency(1.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(2.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>£2</p>
-                    <p id="entry-2.00">x0</p>
-                </div>
-                <div onclick="addCurrency(2.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(5.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>£5</p>
-                    <p id="entry-5.00">x0</p>
-                </div>
-                <div onclick="addCurrency(5.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(10.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>£10</p>
-                    <p id="entry-10.00">x0</p>
-                </div>
-                <div onclick="addCurrency(10.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(20.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>£20</p>
-                    <p id="entry-20.00">x0</p>
-                </div>
-                <div onclick="addCurrency(20.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
-            </div>
-            <div class="flex flex-col-reverse gap-2 md:flex-row">
-                <div onclick="subtractCurrency(50.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>-1</p>
-                </div>
-                <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
-                    <p>£50</p>
-                    <p id="entry-50.00">x0</p>
-                </div>
-                <div onclick="addCurrency(50.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
-                    <p>+1</p>
-                </div>
+                <button type="button" onclick="addEmployeeClick()" id="enter" class="rounded-lg bg-slate-600 text-white hover:bg-slate-500 focus:outline-none focus:ring focus:ring-slate-350 active:bg-slate-500 pt-1 pb-1 px-3">Add Employee</button>
+            </form>
+        </div>
+        <!--   Section for showing the currently added employees -->
+        <div class="place-items-center flex flex-col pt-5">
+            <p class="place-self-center font-bold text-2xl mb-5">Employees</p>
+            <svg onclick="resetEmployees()" class="w-5 h-5" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024">
+                <path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"  />
+            </svg>
+            <div id="entriesList" class="flex flex-wrap flex-col place-items-center place-content-center gap-5 w-full overflow-x-clip mt-5">
             </div>
         </div>
-        <p class="place-self-center font-bold text-xl" id="total-tips">Total: £0.00</p>
-    </div>
-    <!--   Section for returning the optimal split to the user     -->
-    <div class="flex flex-col place-items-center py-5">
-        <p class="place-self-center font-bold text-2xl mb-5">Output</p>
-        <p class="place-self-center font-bold text-xl mb-5" id="perhour">£0.00/hr</p>
-        <!-- Section for displaying any coin swaps -->
-        <div class="flex flex-col place-items-center place-content-center py-5 rounded-xl w-full has-[#old-cash-exchange:empty]:hidden">
-            <p class="place-self-center font-bold text-xl pb-3">Cash Exchange</p>
-            <div class="flex flex-col place-items-center place-content-center gap-5">
-                <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap" id="old-cash-exchange"></div>
-                <div class="has-[#new-cash-exchange:empty]:hidden flex flex-col place-items-center justify-items-center gap-5">
-                    <svg class="w-7 h-7 fill-white" height="200px" width="200px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g id="arrow_x5F_down"> <path d="M32,16.016l-5.672-5.664c0,0-3.18,3.18-6.312,6.312V0h-8.023v16.664l-6.32-6.32L0,16.016L16,32 L32,16.016z"></path> </g> </g> </g>
-                    </svg>
-                    <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap" id="new-cash-exchange"></div>
+        <!--   Section for totalling up the tips per coin/cash     -->
+        <div class="place-items-center flex flex-col gap-5 pt-5">
+            <p class="place-self-center font-bold text-2xl">Tips</p>
+            <svg onclick="resetTips()" class="w-5 h-5" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024">
+                <path d="M524.8 106.666667c-106.666667 0-209.066667 42.666667-285.866667 110.933333l-8.533333-68.266667c0-25.6-21.333333-42.666667-46.933333-38.4-25.6 0-42.666667 21.333333-38.4 46.933334l8.533333 115.2c4.266667 55.466667 51.2 98.133333 106.666667 98.133333h8.533333L384 362.666667c25.6 0 42.666667-21.333333 38.4-46.933334 0-25.6-21.333333-42.666667-46.933333-38.4l-85.333334 4.266667c64-55.466667 145.066667-89.6 230.4-89.6 187.733333 0 341.333333 153.6 341.333334 341.333333s-153.6 341.333333-341.333334 341.333334-341.333333-153.6-341.333333-341.333334c0-25.6-17.066667-42.666667-42.666667-42.666666s-42.666667 17.066667-42.666666 42.666666c0 234.666667 192 426.666667 426.666666 426.666667s426.666667-192 426.666667-426.666667c4.266667-234.666667-187.733333-426.666667-422.4-426.666666z"  />
+            </svg>
+            <div class="flex flex-row select-none gap-3 flex-wrap place-content-center">
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-0.01">
+                    <div onclick="subtractCurrency(0.01)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>1p</p>
+                        <p id="entry-0.01">x0</p>
+                    </div>
+                    <div onclick="addCurrency(0.01)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-0.02">
+                    <div onclick="subtractCurrency(0.02)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>2p</p>
+                        <p id="entry-0.02">x0</p>
+                    </div>
+                    <div onclick="addCurrency(0.02)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-0.05">
+                    <div onclick="subtractCurrency(0.05)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>5p</p>
+                        <p id="entry-0.05">x0</p>
+                    </div>
+                    <div onclick="addCurrency(0.05)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-0.10">
+                    <div onclick="subtractCurrency(0.10)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>10p</p>
+                        <p id="entry-0.10">x0</p>
+                    </div>
+                    <div onclick="addCurrency(0.10)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-0.20">
+                    <div onclick="subtractCurrency(0.20)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>20p</p>
+                        <p id="entry-0.20">x0</p>
+                    </div>
+                    <div onclick="addCurrency(0.20)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-0.50">
+                    <div onclick="subtractCurrency(0.50)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>50p</p>
+                        <p id="entry-0.50">x0</p>
+                    </div>
+                    <div onclick="addCurrency(0.50)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-1.00">
+                    <div onclick="subtractCurrency(1.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>£1</p>
+                        <p id="entry-1.00">x0</p>
+                    </div>
+                    <div onclick="addCurrency(1.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-2.00">
+                    <div onclick="subtractCurrency(2.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>£2</p>
+                        <p id="entry-2.00">x0</p>
+                    </div>
+                    <div onclick="addCurrency(2.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-5.00">
+                    <div onclick="subtractCurrency(5.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>£5</p>
+                        <p id="entry-5.00">x0</p>
+                    </div>
+                    <div onclick="addCurrency(5.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-10.00">
+                    <div onclick="subtractCurrency(10.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>£10</p>
+                        <p id="entry-10.00">x0</p>
+                    </div>
+                    <div onclick="addCurrency(10.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-20.00">
+                    <div onclick="subtractCurrency(20.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>£20</p>
+                        <p id="entry-20.00">x0</p>
+                    </div>
+                    <div onclick="addCurrency(20.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
+                </div>
+                <div class="flex flex-col-reverse gap-2 md:flex-row" id="input-50.00">
+                    <div onclick="subtractCurrency(50.00)" class="bg-red-500 rounded-b-full md:rounded-br-none md:rounded-s-full p-3 border-red-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>-1</p>
+                    </div>
+                    <div class="bg-slate-500 rounded-none border-slate-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                        <p>£50</p>
+                        <p id="entry-50.00">x0</p>
+                    </div>
+                    <div onclick="addCurrency(50.00)" class="bg-green-500 rounded-t-full md:rounded-tl-none md:rounded-e-full p-3 border-green-700 border-4 cursor-pointer flex flex-col place-content-center text-center">
+                        <p>+1</p>
+                    </div>
                 </div>
             </div>
+            <p class="place-self-center font-bold text-xl" id="total-tips">Total: £0.00</p>
         </div>
-        <!-- Section for displaying the coins per person -->
-        <div class="flex flex-row place-self-center justify-items-center place-items-center pt-5 gap-5 flex-wrap items-center justify-center" id="employee-results">
+        <!--   Section for returning the optimal split to the user     -->
+        <div class="flex flex-col place-items-center py-5">
+            <p class="place-self-center font-bold text-2xl mb-5">Output</p>
+            <p class="place-self-center font-bold text-xl mb-5" id="perhour">£0.00/hr</p>
+            <!-- Section for displaying any coin swaps -->
+            <div class="flex flex-col place-items-center place-content-center py-5 rounded-xl w-full has-[#old-cash-exchange:empty]:hidden">
+                <p class="place-self-center font-bold text-xl pb-3">Cash Exchange</p>
+                <div class="flex flex-col place-items-center place-content-center gap-5">
+                    <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap" id="old-cash-exchange"></div>
+                    <div class="has-[#new-cash-exchange:empty]:hidden flex flex-col place-items-center justify-items-center gap-5">
+                        <svg class="w-7 h-7 fill-white" height="200px" width="200px" id="Capa_1" viewBox="0 0 32 32" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g id="arrow_x5F_down"> <path d="M32,16.016l-5.672-5.664c0,0-3.18,3.18-6.312,6.312V0h-8.023v16.664l-6.32-6.32L0,16.016L16,32 L32,16.016z"></path> </g> </g> </g>
+                        </svg>
+                        <div class="flex flex-row place-items-center place-content-center gap-5 flex-wrap" id="new-cash-exchange"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Section for displaying the coins per person -->
+            <div class="flex flex-row place-self-center justify-items-center place-items-center pt-5 gap-5 flex-wrap items-center justify-center" id="employee-results">
+            </div>
         </div>
     </div>
 </div>
