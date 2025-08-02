@@ -64,6 +64,7 @@ const handleToggleCurrency = (enabled, currency) => {
     }
 
     handleSave();
+    calculateValues();
 }
 
 const handleSave = () => {
