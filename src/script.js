@@ -63,7 +63,6 @@ const handleToggleCurrency = (enabled, currency) => {
         element.classList.add("hidden");
     }
 
-    handleSave();
     calculateValues();
 }
 
@@ -496,7 +495,10 @@ const calculateValues = () => {
     }
 
     // calculate the tips earned per hour
-    const tipsPerMinute = totalTips / totalMinutes;
+    let tipsPerMinute = totalTips / totalMinutes;
+    if(isNaN(tipsPerMinute)) {
+        tipsPerMinute = 0;
+    }
     document.getElementById("perhour").innerText = `£${(tipsPerMinute * 60).toFixed(2)}/hr`;
     
     // calculate the tips earned by each employee
@@ -516,7 +518,7 @@ const calculateValues = () => {
     // create a copy of the currencyMap so that we don't mess up the input section
     const currencyMapCopy = new Map(currencyMap);
 
-    // find the tips required by each employee
+    // find the sum of required tips
     const requiredTips = new Map([
         [50.00, 0],
         [20.00, 0],
@@ -531,6 +533,7 @@ const calculateValues = () => {
         [0.02, 0],
         [0.01, 0],
     ]);
+    // calculate required tips per employee
     for(let result of employeeResults){
         findRequiredTips(result, requiredTips)
     }
@@ -563,14 +566,14 @@ const calculateValues = () => {
 
     // create the new entries for the old cash exchange
     for(let [value, quantity] of difference) {
-        // this is cash we need to gain
+        // this is cash we need to give back
         if (quantity > 0) {
             document.getElementById("old-cash-exchange").appendChild(fromHTML(`
             <div class="bg-green-500 rounded-none border-green-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
                         <p>${numberToCurrency(value)}</p>
                         <p>x${quantity}</p>
                     </div>`));
-        // this is cash we need to give back
+        // this is cash we need to gain
         }else if (quantity < 0) {
             document.getElementById("new-cash-exchange").appendChild(fromHTML(`
             <div class="bg-red-500 rounded-none border-red-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
