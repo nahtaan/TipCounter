@@ -232,21 +232,20 @@ const addEmployeeVisually = (nameEntry, hoursEntry, minutesEntry, id) => {
         return;
     }
     const newItem = fromHTML(`
-    <div id="employee-${id}" class="flex flex-row place-content-center bg-neutral-700 rounded-xl divide-x-2 p-3 divide-neutral-400 max-w-full min-w-0">
+<div id="employee-${id}" class="flex flex-row place-content-center bg-gray-800 border-2 border-gray-600 rounded-xl max-w-full min-w-0">
     <div class="flex justify-center items-center align-middle cursor-pointer" onclick="removeEmployee(${id})">
-        <svg class="fill-true-red h-7 w-7 justify-self-center place-self-center" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 24 24">
+        <svg class="fill-true-red h-7 w-7 justify-self-center place-self-center m-3" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 24 24">
             <path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
         </svg>
     </div>
-    <div class="pl-2 pr-2 block text-clip overflow-hidden">
+    <div class="pl-2 pr-2 text-clip overflow-hidden border-x-2 border-gray-700 flex flex-col place-content-center">
         <p class="text-ellipsis break-words">${nameEntry}</p>
     </div>
-    <div class="flex flex-row gap-3 pl-2 pr-2">
+    <div class="flex flex-row gap-3 pl-2 pr-2 place-items-center align-middle">
         ${hoursFormat}
         ${minutesFormat}
     </div>
-</div>
-    `);
+</div>`);
     
     // append the overall container to the entrylist container
     document.getElementById("entriesList").appendChild(newItem);
@@ -569,14 +568,14 @@ const calculateValues = () => {
         // this is cash we need to give back
         if (quantity > 0) {
             document.getElementById("old-cash-exchange").appendChild(fromHTML(`
-            <div class="bg-green-500 rounded-none border-green-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+            <div class="bg-gray-800 rounded-xl border-gray-700 border-2 px-3 flex flex-col place-content-center text-center w-[72px]">
                         <p>${numberToCurrency(value)}</p>
                         <p>x${quantity}</p>
                     </div>`));
         // this is cash we need to gain
         }else if (quantity < 0) {
             document.getElementById("new-cash-exchange").appendChild(fromHTML(`
-            <div class="bg-red-500 rounded-none border-red-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+            <div class="bg-gray-800 rounded-xl border-gray-700 border-2 px-3 flex flex-col place-content-center text-center w-[72px]">
                         <p>${numberToCurrency(value)}</p>
                         <p>x${Math.abs(quantity)}</p>
                     </div>`));
@@ -588,7 +587,8 @@ const calculateValues = () => {
     // create the new entries for the employee results
     for(let employee of employeeResults) {
 
-        let container = fromHTML(`<div class="flex flex-col place-self-center justify-items-center place-items-center p-5 divide-y-2 bg-neutral-700 rounded-xl divide-neutral-400">
+        let container = fromHTML(`
+            <div class="flex flex-col place-self-center justify-items-center place-items-center p-5 bg-gray-800 border-2 border-gray-700 rounded-xl">
                 <div class="flex flex-row pb-5 w-full gap-3 place-content-center">
                     <div class="flex flex-col align-middle place-content-center justify-items-center justify-center">
                         <input type="checkbox" class="w-7 h-7 accent-green-500">
@@ -605,7 +605,7 @@ const calculateValues = () => {
             const realIncrement = increment / 100;
             coinValues.appendChild(
                 fromHTML(`
-                    <div class="bg-teal-500 rounded-none border-teal-700 border-4 px-3 flex flex-col place-content-center text-center w-[72px]">
+                    <div class="bg-gray-700 rounded-xl border-gray-600 border-2 px-3 flex flex-col place-content-center text-center w-[72px]">
                         <p>${numberToCurrency(realIncrement)}</p>
                         <p>x${frequency}</p>
                     </div>
