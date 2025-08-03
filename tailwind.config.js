@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,js}"],
+  content: ["./src/index.html"],
   theme: {
     extend: {
       colors: {
@@ -10,9 +10,12 @@ module.exports = {
   },
   safelist: [
     'flex',
+    'hidden',
     'flex-row',
     'place-content-center',
     'bg-neutral-700',
+    'bg-teal-500',
+    'border-teal-700',
     'rounded-xl',
     'divide-x-2',
     'p-3',
@@ -24,6 +27,7 @@ module.exports = {
     'align-middle',
     'fill-true-red',
     'lg:h-9',
+    '-translate-x-full',
     'lg:w-7',
     'lg:pt-2',
     'h-7',
